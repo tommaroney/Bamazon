@@ -84,10 +84,36 @@ function newProductPrompt() {
     ]);
 }
 
+function supervisorPrompt() {
+    return enquirer.prompt({
+        type: "select",
+        message: "What would you like to do?",
+        name: "supervisorTask",
+        choices: ["View Product Sales by Department", "Create New Department"],
+    });
+}
+
+function createNewDepartmentPrompt() {
+    return enquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the new department?",
+            name: "departmentName"
+        },
+        {
+            type: "input",
+            message: "What is the annual overhead of the department?",
+            name: "departmentOverhead"
+        }
+    ]);
+}
+
 module.exports = {
     orderPrompt,
     managePrompt,
     supplementInventoryPrompt,
     newProductPrompt,
     increaseByPrompt,
+    supervisorPrompt,
+    createNewDepartmentPrompt,
 }

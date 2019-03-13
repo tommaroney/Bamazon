@@ -19,6 +19,7 @@
   "homepage": "https://github.com/tommaroney/Bamazon#readme",
   "dependencies": {
     "enquirer": "^2.3.0",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "table": "^5.2.3"
   }
 }
