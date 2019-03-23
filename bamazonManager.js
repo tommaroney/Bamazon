@@ -16,7 +16,7 @@ async function runManager() {
     switch(prompterResponse.action) {
         
         case "View Products for Sale":
-            await listItems(true);
+            await listItems(display);
             connection.end();
             break;
 
@@ -56,7 +56,7 @@ function listItems(display, conditional = "") {
 }
 
 function showLowInventory() {
-    listItems(true, " where stock_quantity < 5");
+    listItems(display, " where stock_quantity < 5");
 }
 
 function handleSupplementInventoryPromptReturn(answer, allProductsObj) {

@@ -1,34 +1,38 @@
 const enquirer = require("enquirer");
 
 async function orderPrompt(productQuantityObj) {
-    let customerOrder = {};
-    await enquirer.prompt({
-        type: "select",
-        message: "Please select the id of the product you would like to purchase: ",
-        name: "selection",
-        choices: Object.keys(productQuantityObj),
-    }).then(async (answer) => {
-        customerOrder.originalQuantity = productQuantityObj[answer.selection];
-        customerOrder.item_id = answer.selection;
-    const quantityOrdered = await howManyPrompt(answer.selection, productQuantityObj);
-        customerOrder.numberOrdered = quantityOrdered.amount;
+    return new Promise(async (resolve, reject) => {
+        let customerOrder = {};
+        await enquirer.prompt({
+            type: "select",
+            message: "Please select the id of the product you would like to purchase: ",
+            name: "selection",
+            choices: Object.keys(productQuantityObj),
+        }).then(async (answer) => {
+            customerOrder.originalQuantity = productQuantityObj[answer.selection];
+            customerOrder.item_id = answer.selection;
+        const quantityOrdered = await howManyPrompt(answer.selection, productQuantityObj);
+            customerOrder.numberOrdered = quantityOrdered.amount;
+        });
+        resolve(customerOrder);
     });
-    return customerOrder;
 }
 
 async function howManyPrompt(productName, productQuantityObj) {
-    let quantityOptions = [];
-    for(i = 0; i <= productQuantityObj[productName]; i++) {
-        quantityOptions.push(i.toString());
-    }
-    return await enquirer.prompt({
-        type: "autocomplete",
-        message: "How many of this item would you like?",
-        suggest(choices, input) {
-            choices.filter((choice) => choice.message.startsWith(input));
-        },
-        choices: quantityOptions,
-        name: "amount"
+    return new Promise(async (resolve, reject) => {
+        let quantityOptions = [];
+        for(i = 0; i <= productQuantityObj[productName]; i++) {
+            quantityOptions.push(i.toString());
+        }
+        resolve( await enquirer.prompt({
+            type: "autocomplete",
+            message: "How many of this item would you like?",
+            suggest(choices, input) {
+                choices.filter((choice) => choice.message.startsWith(input));
+            },
+            choices: quantityOptions,
+            name: "amount"
+        }));
     });
 }
 
